@@ -1,12 +1,15 @@
 import ws from "k6/ws";
-import { check } from "k6";
+import { check, sleep } from "k6";
 
-const ip = "192.168.1.104";
+const ip = "192.168.1.106";
 const port = "8082";
 const chatRoomName = "testRoom";
 export const options = {
-  vus: 100,
-  duration: "20s",
+  vus: 2000,
+  stages: [
+    { duration: "15s", target: 2000 }, // Slowly ramp up to 2000 VUs over 15 seconds
+    { duration: "1m", target: 2000 }, // Stay at 2000 VUs for 1 minute
+  ],
 };
 
 export default function () {
@@ -14,12 +17,17 @@ export default function () {
   const params = { tags: { my_tag: "my ws session" } };
 
   let sendIndex = 1;
+  let messageCount = 50;
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", function open() {
       console.log(`VU ${__VU}: connected`);
       socket.setInterval(function () {
         socket.send(__VU + "의 " + sendIndex++ + "번째 메세지 ");
-      }, 200);
+        if (sendIndex > messageCount) {
+          sleep(1);
+          socket.close();
+        }
+      }, 500);
     });
 
     socket.on("close", function () {

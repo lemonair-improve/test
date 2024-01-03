@@ -3,7 +3,7 @@ import ws from "k6/ws";
 import { check, sleep } from "k6";
 import { Trend, Counter } from "k6/metrics";
 
-const ip = "192.168.1.104";
+const ip = "192.168.1.106";
 const port = "8082";
 const chatRoomName = "testRoom";
 const sendReceiveInterval = new Trend("send_receive_interval", true);

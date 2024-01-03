@@ -7,7 +7,7 @@ import { check, sleep } from "k6";
 import { Trend } from "k6/metrics";
 const sessionDuration = randomIntBetween(10000, 60000); // user session between 10s and 1m
 const chatRoomName = "testRoom"; // choose your chat room name
-const ip = "192.168.1.104";
+const ip = "192.168.1.106";
 const port = "8082";
 const sendReceiveInterval = new Trend("send_receive_interval", true);
 export const options = {

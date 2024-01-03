@@ -2,18 +2,17 @@ import ws from "k6/ws";
 import { check } from "k6";
 import { Counter } from "k6/metrics";
 
-const ip = "192.168.56.1";
+export const options = {
+  stages: [
+    { target: 10, duration: "1s" },
+    { target: 10, duration: "1m" },
+  ],
+};
+
+const ip = "192.168.1.106";
 const port = "8082";
 const chatRoomName = "testRoom";
 const messageReceiveCounter = new Counter("message_receive_counter");
-
-const userCount = 2000;
-
-export const options = {
-  vus: userCount,
-  duration: "50s",
-  iterations: userCount,
-};
 
 export default function () {
   const url = `ws://${ip}:${port}/chat/${chatRoomName}/VU${__VU}`;

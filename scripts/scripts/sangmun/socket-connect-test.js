@@ -1,6 +1,6 @@
 import ws from "k6/ws";
 import { check } from "k6";
-const ip = "192.168.1.104";
+const ip = "192.168.1.106";
 const port = "8082";
 export default function () {
   const url = `ws://${ip}:${port}/chat/test/test`;
