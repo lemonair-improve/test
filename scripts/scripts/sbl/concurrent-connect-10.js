@@ -9,13 +9,13 @@ export const options = {
   ],
 };
 
-const ip = "192.168.1.106";
+const ip = "chat.lemonair.me";
 const port = "8082";
 const chatRoomName = "testRoom";
 const messageReceiveCounter = new Counter("message_receive_counter");
 
 export default function () {
-  const url = `ws://${ip}:${port}/chat/${chatRoomName}/VU${__VU}`;
+  const url = `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
   const params = { tags: { my_tag: "my ws session" } };
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", () => {

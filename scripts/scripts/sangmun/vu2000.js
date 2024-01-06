@@ -1,17 +1,17 @@
-import ws from 'k6/ws';
-import { check } from 'k6';
-import { Counter } from 'k6/metrics';
+import ws from "k6/ws";
+import { check } from "k6";
+import { Counter } from "k6/metrics";
 
-const ip = '192.168.45.48';
-const port = '8082';
-const chatRoomName = 'testRoom';
-const messageReceiveCounter = new Counter('message_receive_counter');
+const ip = "192.168.45.48";
+const port = "8082";
+const chatRoomName = "testRoom";
+const messageReceiveCounter = new Counter("message_receive_counter");
 
 const userCount = 2000;
 
 export const options = {
   vus: userCount,
-  duration: '20s',
+  duration: "20s",
   iterations: userCount,
 };
 
@@ -23,14 +23,14 @@ export default function () {
   //   let retries = 0;
 
   //   while (!connected && retries < maxRetries) {
-  const url = `ws://${ip}:${port}/chat/${chatRoomName}/VU${__VU}`;
-  const params = { tags: { my_tag: 'my ws session' } };
+  const url = `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
+  const params = { tags: { my_tag: "my ws session" } };
 
   // const connectedUsers = [];
   let sendTime;
 
   const res = ws.connect(url, params, function (socket) {
-    socket.on('open', () => {
+    socket.on("open", () => {
       console.log(`VU ${__VU} connected`);
       // connectedUsers.push(socket);
       // currentCount.add(1);
@@ -44,7 +44,7 @@ export default function () {
       // }
     });
 
-    socket.on('message', (data) => {
+    socket.on("message", (data) => {
       console.log(data);
       // const receiveTime = new Date().getTime();
       // console.log('sendtime: ', sendTime);
@@ -60,10 +60,10 @@ export default function () {
       socket.close();
     });
 
-    socket.on('close', () => console.log(`User ${__VU} disconnected`));
+    socket.on("close", () => console.log(`User ${__VU} disconnected`));
   });
 
-  check(res, { 'status is 101': (r) => r && r.status === 101 });
+  check(res, { "status is 101": (r) => r && r.status === 101 });
 
   // retries++;
   // if (!connected) {

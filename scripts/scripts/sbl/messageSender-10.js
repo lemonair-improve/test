@@ -1,7 +1,7 @@
 import ws from "k6/ws";
 import { check, sleep } from "k6";
 
-const ip = "192.168.1.106";
+const ip = "chat.lemonair.me";
 const port = "8082";
 const chatRoomName = "testRoom";
 export const options = {
@@ -10,7 +10,7 @@ export const options = {
 };
 
 export default function () {
-  const url = `ws://${ip}:${port}/chat/${chatRoomName}/VU_Sender_${+__VU}`;
+  const url = `wss://${ip}/chat/${chatRoomName}/VU_Sender_${+__VU}`;
   const params = { tags: { my_tag: "my ws session" } };
 
   let sendIndex = 1;

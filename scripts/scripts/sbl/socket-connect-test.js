@@ -1,9 +1,9 @@
 import ws from "k6/ws";
 import { check } from "k6";
-const ip = "192.168.1.106";
+const ip = "chat.lemonair.me";
 const port = "8082";
 export default function () {
-  const url = `ws://${ip}:${port}/chat/test/test`;
+  const url = `wss://${ip}/chat/test/test`;
   const params = { tags: { my_tag: "hello" } };
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", () => console.log("connected"));

@@ -3,7 +3,7 @@ import ws from "k6/ws";
 import { check } from "k6";
 import { Trend } from "k6/metrics";
 
-const ip = "192.168.1.106";
+const ip = "chat.lemonair.me";
 const port = "8082";
 const chatRoomName = "testRoom";
 const sendReceiveInterval = new Trend("send_receive_interval", true);
@@ -15,7 +15,7 @@ export const options = {
 };
 
 export default function () {
-  const url = `ws://${ip}:${port}/chat/${chatRoomName}/VU${__VU}`;
+  const url = `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
   const params = { tags: { my_tag: "my ws session" } };
 
   const sendMessage = randomString(10);
