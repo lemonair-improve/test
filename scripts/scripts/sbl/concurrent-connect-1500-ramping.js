@@ -4,8 +4,8 @@ import { Counter } from "k6/metrics";
 
 export const options = {
   stages: [
-    { target: 50, duration: "5s" },
-    { target: 50, duration: "2m" },
+    { target: 1500, duration: "20s" },
+    { target: 1500, duration: "2m" },
   ],
 };
 
@@ -25,7 +25,7 @@ export default function () {
     });
 
     socket.on("message", (data) => {
-      console.log(data);
+      // console.log(data);
       messageReceiveCounter.add(1);
     });
 

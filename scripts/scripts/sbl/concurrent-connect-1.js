@@ -2,6 +2,8 @@ import ws from "k6/ws";
 import { check } from "k6";
 import { Counter } from "k6/metrics";
 
+let local = false;
+
 export const options = {
   stages: [
     { target: 1, duration: "1s" },
@@ -15,7 +17,9 @@ const chatRoomName = "testRoom";
 const messageReceiveCounter = new Counter("message_receive_counter");
 
 export default function () {
-  const url = `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
+  const url = local
+    ? `ws://192.168.1.106:8082/chat/test/VU${__VU}`
+    : `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
   const params = { tags: { my_tag: "my ws session" } };
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", () => {

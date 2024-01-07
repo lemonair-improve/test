@@ -4,18 +4,20 @@ import { Counter } from "k6/metrics";
 
 export const options = {
   stages: [
-    { target: 2000, duration: "15s" },
-    { target: 2000, duration: "2m" },
+    { target: 2000, duration: "50s" },
+    { target: 2000, duration: "5m" },
   ],
 };
 
 const ip = "chat.lemonair.me";
 const port = "8082";
-const chatRoomName = "testRoom";
+const chatRoomName = "testRoom2";
 const messageReceiveCounter = new Counter("message_receive_counter");
 
 export default function () {
-  const url = `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
+  const url = local
+    ? `ws://192.168.1.106:8082/chat/test/VU${__VU}`
+    : `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
   const params = { tags: { my_tag: "my ws session" } };
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", () => {

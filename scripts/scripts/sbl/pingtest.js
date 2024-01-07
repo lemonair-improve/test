@@ -3,10 +3,8 @@ import { check } from "k6";
 import { Counter } from "k6/metrics";
 
 export const options = {
-  stages: [
-    { target: 50, duration: "5s" },
-    { target: 50, duration: "2m" },
-  ],
+  vus: 1,
+  iterations: 1,
 };
 
 const ip = "chat.lemonair.me";
@@ -22,6 +20,10 @@ export default function () {
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", () => {
       console.log(`VU ${__VU} connected`);
+      socket.ping();
+    });
+    socket.on("pong", (data) => {
+      console.log(data);
     });
 
     socket.on("message", (data) => {

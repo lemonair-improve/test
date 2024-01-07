@@ -2,16 +2,18 @@ import ws from "k6/ws";
 import { check } from "k6";
 import { Counter } from "k6/metrics";
 
+let local = true;
+
 export const options = {
   stages: [
-    { target: 50, duration: "5s" },
-    { target: 50, duration: "2m" },
+    { target: 100, duration: "5s" },
+    { target: 100, duration: "4m" },
   ],
 };
 
 const ip = "chat.lemonair.me";
 const port = "8082";
-const chatRoomName = "testRoom";
+const chatRoomName = "testRoom1";
 const messageReceiveCounter = new Counter("message_receive_counter");
 
 export default function () {
@@ -21,11 +23,11 @@ export default function () {
   const params = { tags: { my_tag: "my ws session" } };
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", () => {
-      console.log(`VU ${__VU} connected`);
+      // console.log(`VU ${__VU} connected`);
     });
 
     socket.on("message", (data) => {
-      console.log(data);
+      // console.log(data);
       messageReceiveCounter.add(1);
     });
 

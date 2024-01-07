@@ -12,17 +12,18 @@ const openSocketCount = new Counter("openSocketCount");
 const unExpectedSocketErrorCount = new Counter("unExpectedSocketErrorCount");
 const expectedSocketErrorCount = new Counter("expectedSocketErrorCount");
 
-const vus = 10;
+const vus = 100;
 export const options = {
   vus: vus,
   iterations: vus,
 };
 
+let local = true;
 export default function () {
   // __VU = exec.vu.idInTest
   // sleep(0.01);
   const url = local
-    ? `ws://192.168.1.106:8082/chat/test/VU${__VU}`
+    ? `ws://192.168.1.106:8082/chat/createtopic1/VU${__VU}`
     : `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
   const params = { tags: { my_tag: "my ws session" } };
   const sendMessage = randomString(10);
@@ -55,8 +56,8 @@ export default function () {
     });
 
     socket.on("error", function (error) {
-      if (e.error() != "websocket: close sent") {
-        console.log("An unexpected error occured: ", e.error());
+      if (error.error() != "websocket: close sent") {
+        console.log("An unexpected error occured: ", error.error());
         unExpectedSocketErrorCount.add(1);
       } else {
         console.log(" close sent 이면? :", error.error());

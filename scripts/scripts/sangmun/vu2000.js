@@ -23,7 +23,9 @@ export default function () {
   //   let retries = 0;
 
   //   while (!connected && retries < maxRetries) {
-  const url = `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
+  const url = local
+    ? `ws://192.168.1.106:8082/chat/test/VU${__VU}`
+    : `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
   const params = { tags: { my_tag: "my ws session" } };
 
   // const connectedUsers = [];

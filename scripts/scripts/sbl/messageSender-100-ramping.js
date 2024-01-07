@@ -5,7 +5,7 @@ import { getCurrentStageIndex } from "https://jslib.k6.io/k6-utils/1.4.0/index.j
 
 const ip = "chat.lemonair.me";
 const port = "8082";
-const chatRoomName = "testRoom1";
+const chatRoomName = "testRoom5";
 const vus = 100;
 export const options = {
   vus: vus,
@@ -26,6 +26,10 @@ export default function () {
     socket.on("open", function open() {
       console.log(`VU ${__VU}: connected`);
       // if (getCurrentStageIndex === 1) {
+      socket.setInterval(() => {
+        socket.ping();
+      }, 30000);
+
       socket.setInterval(function () {
         socket.send(__VU + "의 " + sendIndex++ + "번째 메세지 ");
         if (sendIndex > messageCount) {

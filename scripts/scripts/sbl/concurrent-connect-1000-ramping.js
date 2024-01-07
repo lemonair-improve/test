@@ -4,14 +4,14 @@ import { Counter } from "k6/metrics";
 
 export const options = {
   stages: [
-    { target: 50, duration: "5s" },
-    { target: 50, duration: "2m" },
+    { target: 1000, duration: "20s" },
+    { target: 1000, duration: "3m" },
   ],
 };
 
 const ip = "chat.lemonair.me";
 const port = "8082";
-const chatRoomName = "testRoom";
+const chatRoomName = "testRoom8";
 const messageReceiveCounter = new Counter("message_receive_counter");
 
 export default function () {
