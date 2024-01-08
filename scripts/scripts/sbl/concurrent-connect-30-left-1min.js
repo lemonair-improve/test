@@ -2,12 +2,9 @@ import ws from "k6/ws";
 import { check } from "k6";
 import { Counter } from "k6/metrics";
 
-const vus = 500;
 export const options = {
-  stages: [
-    { target: vus, duration: "15s" },
-    { target: vus, duration: "4m" },
-  ],
+  vus: 30,
+  iterations: 30,
 };
 
 const local = false;
@@ -23,6 +20,10 @@ export default function () {
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", () => {
       console.log(`VU ${__VU} connected`);
+      socket.setInterval(() => {
+        socket.close();
+        console.log("소켓 종료 요청");
+      }, 60000);
     });
 
     socket.on("message", (data) => {

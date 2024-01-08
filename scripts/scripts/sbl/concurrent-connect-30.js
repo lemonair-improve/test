@@ -2,12 +2,9 @@ import ws from "k6/ws";
 import { check } from "k6";
 import { Counter } from "k6/metrics";
 
-const vus = 500;
 export const options = {
-  stages: [
-    { target: vus, duration: "15s" },
-    { target: vus, duration: "4m" },
-  ],
+  vus: 30,
+  iterations: 30,
 };
 
 const local = false;

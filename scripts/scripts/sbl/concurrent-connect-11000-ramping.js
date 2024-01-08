@@ -2,15 +2,15 @@ import ws from "k6/ws";
 import { check } from "k6";
 import { Counter } from "k6/metrics";
 
-const vus = 500;
+const vus = 11000;
 export const options = {
   stages: [
-    { target: vus, duration: "15s" },
-    { target: vus, duration: "4m" },
+    { target: vus, duration: "5m" },
+    { target: vus, duration: "5m" },
   ],
 };
+let local = true;
 
-const local = false;
 const messageReceiveCounter = new Counter("message_receive_counter");
 
 const protocol = local ? "ws" : "wss";
@@ -26,7 +26,7 @@ export default function () {
     });
 
     socket.on("message", (data) => {
-      console.log(data);
+      // console.log(data);
       messageReceiveCounter.add(1);
     });
 

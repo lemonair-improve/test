@@ -15,7 +15,6 @@ const ip = "chat.lemonair.me";
 const port = "8082";
 const chatRoomName = "testRoom";
 const messageReceiveCounter = new Counter("message_receive_counter");
-
 export default function () {
   const url = local
     ? `ws://192.168.1.106:8082/chat/test/VU${__VU}`

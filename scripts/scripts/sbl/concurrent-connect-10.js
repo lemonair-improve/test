@@ -6,16 +6,16 @@ export const options = {
   vus: 10,
   iterations: 10,
 };
-let local = true;
+let local = false;
 
 const ip = "chat.lemonair.me";
 const port = "8082";
-const chatRoomName = "testRoom";
+const chatRoomName = "testRoom1234";
 const messageReceiveCounter = new Counter("message_receive_counter");
 
 export default function () {
   const url = local
-    ? `ws://192.168.1.106:8082/chat/test/VU${__VU}`
+    ? `ws://192.168.1.106:8082/chat/${chatRoomName}/VU${__VU}`
     : `wss://${ip}/chat/${chatRoomName}/VU${__VU}`;
   const params = { tags: { my_tag: "my ws session" } };
   const res = ws.connect(url, params, function (socket) {

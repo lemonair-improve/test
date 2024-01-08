@@ -1,14 +1,12 @@
 import ws from "k6/ws";
 import { check, sleep } from "k6";
 
-// import { getCurrentStageIndex } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
+import { getCurrentStageIndex } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 
 const vus = 100;
 export const options = {
-  stages: [
-    { duration: "5s", target: vus }, // Slowly ramp up to 2000 VUs over 15 seconds
-    { duration: "3m", target: vus }, // Stay at 2000 VUs for 1 minute
-  ],
+  vus: vus,
+  iterations: vus,
 };
 const local = false;
 
@@ -25,12 +23,10 @@ export default function () {
   const res = ws.connect(url, params, function (socket) {
     socket.on("open", function open() {
       console.log(`VU ${__VU}: connected`);
-      sleep(3);
       socket.setInterval(function () {
         socket.send(__VU + "의 " + sendIndex++ + "번째 메세지 ");
-        console.log(__VU + "의 " + sendIndex + "번째 메세지 ");
         if (sendIndex > messageCount) {
-          sleep(100000000);
+          sleep(1000000);
           socket.close();
         }
       }, 500);
